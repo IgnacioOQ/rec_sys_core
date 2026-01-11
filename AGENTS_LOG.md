@@ -49,3 +49,17 @@
 - **Fixes:**
     - Added `src/__init__.py` to make `src` a proper Python package.
     - Updated `notebooks/colab_exploration.ipynb` to explicitly append `os.getcwd()` to `sys.path` after cloning and changing directory, ensuring the local module resolution works in the ephemeral Colab environment.
+
+**Date:** [Current Date]
+**Agent:** Jules (AI Engineer)
+**Task:** Colab Dependency & Restart Handling
+
+### Changes
+- **Issue:**
+    1.  Dependency conflict: `opencv` and others in Colab require `numpy>=2`, but `scikit-surprise` requires `numpy<2`. This necessitates a runtime restart.
+    2.  `ModuleNotFoundError: No module named 'src.data'` persisting despite previous fix.
+- **Fixes:**
+    - Updated `notebooks/colab_exploration.ipynb`:
+        - Added automatic runtime restart helper (`os.kill(os.getpid(), 9)`).
+        - Robustified `sys.path` appending: explicitly checks `os.path.abspath(os.getcwd())` and adds fallback to `/content/rec_sys_core`.
+        - Added diagnostic print statements to verify `src` import status.
