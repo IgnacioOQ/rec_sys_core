@@ -1,0 +1,14 @@
+# Data
+data/
+models/
+*.pkl
+*.gz
+*.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.ipynb_checkpoints/

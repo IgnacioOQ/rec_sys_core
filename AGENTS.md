@@ -62,37 +62,48 @@ If you want to teach an agent a new language (like JAX) or technique:
 ## LOCAL PROJECT DESCRIPTION
 
 ### Project Overview
+This project is a dual-paradigm Recommender System implementing both:
+1.  **Collaborative Filtering (CF):** Utilizing Matrix Factorization (SVD) on the MovieLens dataset to predict static user preferences.
+2.  **Contextual Bandits (CMAB):** Utilizing the LinUCB algorithm on the Amazon Beauty dataset to optimize sequential decision-making with text-based context.
+
+The project follows a modular "Cookiecutter Data Science" structure, separating data ingestion, processing, and model training into distinct, reproducible pipelines.
 
 ### Setup & Testing
-
+*   **Dependencies:** Managed via `requirements.txt`. Key libraries include `scikit-surprise`, `contextualbandits`, `pandas`, and `scikit-learn`.
+*   **Automation:** A `Makefile` is provided to orchestrate the workflow (`make data`, `make train`).
+*   **Testing:** Run `make test` to execute unit tests in `tests/`.
 
 ### Key Architecture & Logic
 
-#### 1. Directed Graphs & Information Flow
+#### 1. Data Pipelines (`src/data`)
+*   **Abstract Base Pipeline:** Defines a standard interface for downloading and loading datasets.
+*   **MovieLens Pipeline:** Downloads the "Latest Small" dataset, extracting user-item interactions (ratings).
+*   **Amazon Pipeline:** Streams the "5-core" Beauty dataset (JSON Lines), handling GZIP decompression and parsing reviews.
 
-#### 2. Agents, Piplines
+#### 2. Collaborative Filtering (`src/models/train_cf.py`)
+*   **Algorithm:** SVD (Singular Value Decomposition) optimized via SGD.
+*   **Library:** Scikit-Surprise.
+*   **Workflow:** Data loading -> 5-Fold Cross-Validation -> Full Training -> Model Serialization.
 
-#### 3. Simulation Loop (`Model` class)
-
+#### 3. Contextual Bandits (`src/models/train_bandit.py`)
+*   **Algorithm:** LinUCB (Linear Upper Confidence Bound).
+*   **Context:** TF-IDF vectors generated from review text.
+*   **Simulation:** "Replay" method (Rejection Sampling) on historical log data to estimate policy performance offline.
 
 ### Key Files and Directories
 
 #### Directory Structure
-
+*   `src/data/`: Ingestion logic (`download.py`, `process.py`).
+*   `src/models/`: Training logic (`train_cf.py`, `train_bandit.py`).
+*   `data/`: Stores raw downloads and processed CSV/JSON/Parquet files.
+*   `notebooks/`: `exploration.ipynb` for visual demonstration.
 
 #### File Dependencies & Logic
-
-
-**Legacy/Reference Implementation:**
-
-
-**Vectorized Implementation (Fast):**
-
-
-
+*   **`src/data/download.py`**: Contains `MovieLensPipeline` and `AmazonBeautyPipeline` classes.
+*   **`src/data/process.py`**: Wrappers that invoke pipelines and save cleaned data to `data/interim/`.
+*   **`src/models/train_cf.py`**: Reads `data/interim/ratings.csv` -> Output: `models/svd_model.pkl`.
+*   **`src/models/train_bandit.py`**: Reads `data/interim/amazon_beauty.json` -> Output: `models/bandit_policy.pkl`.
 
 **Testing & Verification:**
-*   **`unit_tests.py`**: Unit tests for the reference implementation (`agents.py`, `model.py`).
-*   **`test_vectorization.py`**: Regression tests ensuring `VectorizedModel` matches `Model`.
-*   **`basic_model_testing.ipynb`**: Visual verification notebook for the reference model.
-*   **`vectorized_basic_model_testing.ipynb`**: Visual verification notebook for the vectorized model.
+*   **`tests/test_download_mock.py`**: Unit tests verifying pipeline logic with mocked network requests.
+*   **`tests/test_integration.py`**: Integration tests verifying end-to-end data processing (verifies file creation).

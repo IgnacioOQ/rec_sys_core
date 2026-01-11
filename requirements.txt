@@ -1,0 +1,9 @@
+numpy
+pandas
+scipy
+scikit-learn
+scikit-surprise
+contextualbandits
+requests
+joblib
+jupyter
