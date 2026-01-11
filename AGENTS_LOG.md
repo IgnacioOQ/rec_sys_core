@@ -27,3 +27,15 @@
 - `src/models/train_bandit.py` -> imports `contextualbandits`, `sklearn` (external)
 - `tests/test_download_mock.py` -> imports `src.data.download`
 - `tests/test_integration.py` -> imports `src.data.process`, `src.data.download`
+
+**Date:** [Current Date]
+**Agent:** Jules (AI Engineer)
+**Task:** Colab Compatibility Fix
+
+### Changes
+- **Issue:** `ModuleNotFoundError: No module named 'imp'` in Google Colab when running `%load_ext autoreload`. This is due to `ipython` (via `autoreload`) using deprecated `imp` module in some environment configurations, or `requirements.txt` installing incompatible versions.
+- **Fixes:**
+    - Removed `%load_ext autoreload` and `%autoreload 2` from `notebooks/colab_exploration.ipynb` as they are non-essential for the demo.
+    - Updated `requirements.txt`:
+        - Removed `jupyter` (implicit in Colab/Notebook envs).
+        - Pinned `numpy<2` to ensure `scikit-surprise` compatibility.
