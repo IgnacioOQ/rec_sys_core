@@ -1,4 +1,4 @@
-numpy
+numpy<2
 pandas
 scipy
 scikit-learn
@@ -6,4 +6,3 @@ scikit-surprise
 contextualbandits
 requests
 joblib
-jupyter
