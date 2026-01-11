@@ -39,3 +39,13 @@
     - Updated `requirements.txt`:
         - Removed `jupyter` (implicit in Colab/Notebook envs).
         - Pinned `numpy<2` to ensure `scikit-surprise` compatibility.
+
+**Date:** [Current Date]
+**Agent:** Jules (AI Engineer)
+**Task:** Colab Import Fix
+
+### Changes
+- **Issue:** `ModuleNotFoundError: No module named 'src'` in Google Colab.
+- **Fixes:**
+    - Added `src/__init__.py` to make `src` a proper Python package.
+    - Updated `notebooks/colab_exploration.ipynb` to explicitly append `os.getcwd()` to `sys.path` after cloning and changing directory, ensuring the local module resolution works in the ephemeral Colab environment.
