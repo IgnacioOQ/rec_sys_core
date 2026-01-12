@@ -3,7 +3,7 @@
 1. Read the AGENTS.md file.
 2. Look at the dependency network of the project, namely which script refers to which one.
 3. Proceed doing different sanity checks and unit tests from root scripts to leaves.
-4. Compile all errors and tests results into a report. And print that report in the Latest Report subsection below, overwriting previous reports.
+4. Compile all errors and tests results into a report. Include the author of the report (Claude, Jules, etc). And print that report in the Latest Report subsection below, overwriting previous reports.
 5. Add that report to the AGENTS_LOG.md.
 
 # Current Project Housekeeping
@@ -23,6 +23,7 @@ Structure:
 
 ## Latest Report
 
+**Author:** Claude
 **Execution Date:** 2026-01-12
 
 **Test Results:**
